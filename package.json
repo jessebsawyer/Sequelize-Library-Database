@@ -1,0 +1,20 @@
+{
+  "name": "sequelize-library-database",
+  "version": "1.0.0",
+  "description": "Library database of books that can be deleted, added or updtated",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Jesse Sawyer",
+  "license": "MIT",
+  "dependencies": {
+    "D": "^1.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4",
+    "pug": "^3.0.0",
+    "sequelize": "^6.3.4",
+    "sqlite3": "^5.0.0"
+  }
+}
