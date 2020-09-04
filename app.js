@@ -15,6 +15,9 @@ const app = express();
 // Set View Engine to Pug
 app.set('view engine', 'pug');
 
+// Load Static Files
+app.use('/static', express.static(path.join(__dirname, 'public')))
+
 // Render Homepage
 app.get('/', (req, res) => res.render('index'));
 
