@@ -7,7 +7,9 @@ router.get('/', (req, res) =>
 Book.findAll()
     .then(book => {
         console.log(book)
-        res.sendStatus(200);
+        res.render('index', {
+            book
+        });
     })
     .catch(err => console.log(err))
 );

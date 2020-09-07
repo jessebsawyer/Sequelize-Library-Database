@@ -19,7 +19,7 @@ app.set('view engine', 'pug');
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
 // Render Homepage
-app.get('/', (req, res) => res.render('index'));
+app.get('/', (req, res) => res.redirect('/books'));
 
 // Book Routes
 app.use('/books', require('./routes/books'));
