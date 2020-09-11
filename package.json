@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "D": "^1.0.0",
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "nodemon": "^2.0.4",
     "pug": "^3.0.0",
