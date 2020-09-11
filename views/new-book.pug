@@ -4,7 +4,11 @@ head
   link(rel='stylesheet' href='/static/stylesheets/style.css')
 h1 New Book
 form(method='post' action='/books/new')
-
+  if errors 
+  h2.error Ooops!
+  ul.error
+    each error in errors
+      li = error
   p
     label(for='title') Title
     input#title(name='title' type='text')

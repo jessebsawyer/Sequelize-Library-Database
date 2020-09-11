@@ -21,35 +21,34 @@ router.get('/new', (req, res) => res.render('new-book'))
 
 // Create New Book
 router.post('/new', (req, res) => {
-    let id = req.params.id;
-    Book.create(req.body)
-        .then(res.redirect('/books'))
-        .catch(err => console.log(err))
-    // let {title, author, genre, year} = req.body
-    // let errors = [];
-
-    // if (!title) {
-    //     errors.push({text: 'Your book needs a title!'})
-    // }
-    // if (!author) {
-    //     errors.push({text: 'Who are you? Please tell us.'})
-    // }
-    // if (!genre) {
-    //     errors.push({text: 'Have you considered a genre?'})
-    // }
-    // if (!year) {
-    //     errors.push({text: 'What year was this published?'})
-    // }
-
-    // if (errors.length > 0) {
-    //     res.render('new-book', {
-    //         errors
-    //     });
-    // } else {
-    //     Book.create(req.body)
+    // Book.create(req.body)
     //     .then(res.redirect('/books'))
-    //     .catch(err => console.log(err)) 
-    // }
+    //     .catch(err => console.log(err))
+    let {title, author, genre, year} = req.body
+    let errors = [];
+
+    if (!title) {
+        errors.push({text: 'Your book needs a title!'})
+    }
+    if (!author) {
+        errors.push({text: 'Who are you? Please tell us.'})
+    }
+    if (!genre) {
+        errors.push({text: 'Have you considered a genre?'})
+    }
+    if (!year) {
+        errors.push({text: 'What year was this published?'})
+    }
+
+    if (errors.length > 0) {
+        res.render('new-book', {
+            errors
+        });
+    } else {
+        Book.create(req.body)
+        .then(res.redirect('/books'))
+        .catch(err => console.log(err)) 
+    }
 })      
 
 // Render Update Book
