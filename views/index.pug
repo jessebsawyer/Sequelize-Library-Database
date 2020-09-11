@@ -16,7 +16,7 @@ block content
     each val in book
       tr
         td 
-          a(href='book_detail.html')= val.title
+          a(href=`/books/${val.id}`)= val.title
         td= val.author
         td= val.genre
         td= val.year
