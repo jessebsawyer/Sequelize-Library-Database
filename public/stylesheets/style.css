@@ -135,7 +135,13 @@ input[type=text] {
 .wrap{
   width: 30%;
   position: absolute;
-  top: 13%;
-  left: 68%;
+  top: 19%;
+  left: 37%;
   transform: translate(-50%, -50%);
+}
+
+@media (min-width: 1000px) {
+  .wrap{
+    left: 68%;
+  }
 }

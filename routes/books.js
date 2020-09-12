@@ -21,9 +21,6 @@ router.get('/new', (req, res) => res.render('new-book'))
 
 // Create New Book
 router.post('/new', (req, res) => {
-    // Book.create(req.body)
-    //     .then(res.redirect('/books'))
-    //     .catch(err => console.log(err))
     let {title, author, genre, year} = req.body
     let errors = [];
 
@@ -70,11 +67,40 @@ router.get('/:id', (req, res) => {
 // Update Book
 router.post('/:id', (req, res) => {
     let id = req.params.id;
+    let {title, author, genre, year} = req.body;
+    let errors = [];
     Book.findByPk(id)
         .then(book => {
             if (book) {
                 book.update(req.body)
-                .then(res.redirect('/books'))
+                    .then(res.redirect('/books'))
+                    .catch(err => {
+                        if(err.name === 'SequelizeValidationError') {
+                            console.log('this works!!!!');
+                            
+                            if (!title) {
+                                errors.push({text: 'Your book needs a title!'})
+                            }
+                            if (!author) {
+                                errors.push({text: 'Who are you? Please tell us.'})
+                            }
+                            if (!genre) {
+                                errors.push({text: 'Have you considered a genre?'})
+                            }
+                            if (!year) {
+                                errors.push({text: 'What year was this published?'})
+                            }
+                            if (errors.length > 0) {
+                                Book.build(req.body)
+                                    .then(book => {
+                                        res.render('update-book', {error, book})
+                                    })
+                                    .catch(err => console.log(err))
+                                      
+                                
+                            }
+                        }
+                    })
             } else {
                 res.render('page-not-found');
             }

@@ -4,6 +4,11 @@ head
   link(rel='stylesheet' href='/static/stylesheets/style.css')
 h1 Update Book
 form(method='post' action=`/books/${book.id}`)
+  if errors
+    h2.error Ooops!
+    ul.error
+      each error in errors
+        li= error.text
   p
     label(for='title') Title
     input#title(name='title' type='text' value= book.title)
