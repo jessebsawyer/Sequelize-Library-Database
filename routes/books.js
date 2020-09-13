@@ -15,7 +15,7 @@ Book.findAll()
         });
     })
     .catch(err => {
-        res.render('error');
+        res.render('error')
     })
 );
 
@@ -51,7 +51,7 @@ router.post('/new', (req, res) => {
     } else {
         Book.create(req.body)
         .then(res.redirect('/books'))
-        .catch(res.render('error')) 
+        .catch(err => console.log(err)) 
     }
 })      
 
@@ -68,7 +68,7 @@ router.get('/:id', (req, res) => {
                 res.render('page-not-found');
             }
         })
-        .catch(res.render('error'))
+        .catch(err => console.log(err))
 })
 
 // Update Book
@@ -110,7 +110,7 @@ router.post('/:id', (req, res) => {
                 res.render('page-not-found');
             }
         })
-        .catch(res.render('error'))
+        .catch(err => console.log(err))
 })      
 
 // Delete Book
@@ -125,7 +125,7 @@ router.post('/:id/delete', (req, res) => {
                res.render('page-not-found');
            }
         })
-        .catch(res.render('error'))
+        .catch(err => console.log(err))
 })
 
 module.exports = router;
