@@ -1,3 +1,4 @@
+// Require Varibles
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
@@ -125,12 +126,4 @@ router.post('/:id/delete', (req, res) => {
         .catch(err => console.log(err))
 })
 
-router.get('/search', (req, res) => {
-  let {search} = req.query;
-  search = search.toLowerCase();
-
-  Book.findAll({where: { title: { [Op.like]: '%' + search + '%'}}})
-    .then(book => res.render('index', {book}))
-    .catch(err => console.log(err))
-})
 module.exports = router;
