@@ -134,14 +134,14 @@ input[type=text] {
 /*Resize the wrap to see the search bar change!*/
 .wrap{
   width: 30%;
-  position: absolute;
-  top: 19%;
-  left: 37%;
+  position: relative;
+  top: -3vh;
+  left: 28vh;
   transform: translate(-50%, -50%);
 }
 
-@media (min-width: 1000px) {
+@media(min-width: 600px) {
   .wrap{
-    left: 68%;
+    left: 60vh;
   }
 }
