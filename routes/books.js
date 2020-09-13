@@ -39,7 +39,11 @@ router.post('/new', (req, res) => {
 
     if (errors.length > 0) {
         res.render('new-book', {
-            errors
+            errors,
+            title,
+            author,
+            genre,
+            year
         });
     } else {
         Book.create(req.body)
@@ -88,7 +92,11 @@ router.post('/:id', (req, res) => {
                 if (errors.length > 0) {
                     res.render('update-book', {
                         errors,
-                        book
+                        book,
+                        title,
+                        author,
+                        genre,
+                        year
                     });
                 } else {
                     book.update(req.body)
@@ -121,7 +129,7 @@ router.get('/search', (req, res) => {
   let {search} = req.query;
   search = search.toLowerCase();
 
-  Book.findAll({where: { title, author, genre, year: { [Op.like]: '%' + search + '%'}}})
+  Book.findAll({where: { title: { [Op.like]: '%' + search + '%'}}})
     .then(book => res.render('index', {book}))
     .catch(err => console.log(err))
 })
