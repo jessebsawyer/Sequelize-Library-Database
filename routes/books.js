@@ -27,32 +27,43 @@ router.post('/new', (req, res) => {
     let {title, author, genre, year} = req.body
     let errors = [];
 
-    if (!title) {
-        errors.push({text: 'Your book needs a title!'})
-    }
-    if (!author) {
-        errors.push({text: 'Who are you? Please tell us.'})
-    }
-    if (!genre) {
-        errors.push({text: 'Have you considered a genre?'})
-    }
-    if (!year) {
-        errors.push({text: 'What year was this published?'})
-    }
+    // if (!title) {
+    //     errors.push({text: 'Your book needs a title!'})
+    // }
+    // if (!author) {
+    //     errors.push({text: 'Who are you? Please tell us.'})
+    // }
+    // if (!genre) {
+    //     errors.push({text: 'Have you considered a genre?'})
+    // }
+    // if (!year) {
+    //     errors.push({text: 'What year was this published?'})
+    // }
 
-    if (errors.length > 0) {
-        res.render('new-book', {
-            errors,
-            title,
-            author,
-            genre,
-            year
-        });
-    } else {
+    // if (errors.length > 0) {
+    //     res.render('new-book', {
+    //         errors,
+    //         title,
+    //         author,
+    //         genre,
+    //         year
+    //     });
+    // } else {
         Book.create(req.body)
         .then(res.redirect('/books'))
-        .catch(err => console.log(err)) 
-    }
+        .catch(err => {
+            if (err.name = 'SequelizeValidationError') {
+                errors.push(err.message);
+                res.render('new-book', {
+                    errors,
+                    title,
+                    author,
+                    genre,
+                    year
+                })
+            }
+        }) 
+    // }
 })      
 
 // Render Update Book
@@ -79,38 +90,54 @@ router.post('/:id', (req, res) => {
     Book.findByPk(id)
         .then(book => {
             if (book) {
-                if (!title) {
-                    errors.push({text: 'Your book needs a title!'})
-                }
-                if (!author) {
-                    errors.push({text: 'Who are you? Please tell us.'})
-                }
-                if (!genre) {
-                    errors.push({text: 'Have you considered a genre?'})
-                }
-                if (!year) {
-                    errors.push({text: 'What year was this published?'})
-                }
+                // if (!title) {
+                //     errors.push({text: 'Your book needs a title!'})
+                // }
+                // if (!author) {
+                //     errors.push({text: 'Who are you? Please tell us.'})
+                // }
+                // if (!genre) {
+                //     errors.push({text: 'Have you considered a genre?'})
+                // }
+                // if (!year) {
+                //     errors.push({text: 'What year was this published?'})
+                // }
             
-                if (errors.length > 0) {
-                    res.render('update-book', {
-                        errors,
-                        book,
-                        title,
-                        author,
-                        genre,
-                        year
-                    });
-                } else {
+                // if (errors.length > 0) {
+                //     res.render('update-book', {
+                //         errors,
+                //         book,
+                //         title,
+                //         author,
+                //         genre,
+                //         year
+                //     });
+                // } else {
                     book.update(req.body)
                     .then(res.redirect('/books'))
-                    .catch(err => console.log(err)) 
-                }
+                    .catch(err => {
+                        if (err.name = 'SequelizeValidationError') {
+                            errors.push(err.message);
+                            res.render('update-book', {
+                                errors,
+                                book,
+                                title,
+                                author,
+                                genre,
+                                year
+                            })
+                        }
+                    }) 
+                // }
             } else {
                 res.render('page-not-found');
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            if (err) {
+                res.render('error')
+            }
+        }) 
 })      
 
 // Delete Book
@@ -125,7 +152,11 @@ router.post('/:id/delete', (req, res) => {
                res.render('page-not-found');
            }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            if (err) {
+                res.render('error')
+            }
+        })
 })
 
 module.exports = router;
