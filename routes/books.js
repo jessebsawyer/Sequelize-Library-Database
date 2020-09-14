@@ -64,7 +64,7 @@ router.post('/:id', async (req, res) => {
         await book.update(req.body);
         res.redirect('/books'); 
       } else {
-        res.render('page-not-found');
+        res.render('error');
       }
     } catch (error) {
       if(error.name === "SequelizeValidationError") {
@@ -86,7 +86,7 @@ router.post('/:id/delete', (req, res) => {
             book.destroy(req.body)
             .then(res.redirect('/books'))
            } else {
-               res.render('page-not-found');
+               res.render('error');
            }
         })
         .catch(err => {
