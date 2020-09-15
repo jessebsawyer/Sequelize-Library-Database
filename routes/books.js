@@ -7,23 +7,21 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 // Show All Books
-router.get('/', (req, res) => 
+router.get('/', (req, res, next) => 
 Book.findAll()
     .then(book => {
         res.render('index', {
             book
         });
     })
-    .catch(err => {
-        res.render('error')
-    })
+    .catch(err => next(err))
 );
 
 // Render New Book Form
 router.get('/new', (req, res) => res.render('new-book'))
 
 // Create New Book
-router.post('/new', async (req, res) => {
+router.post('/new', async (req, res, next) => {
     let book;
     let {title, author, genre, year} = req.body
     try {
@@ -34,51 +32,43 @@ router.post('/new', async (req, res) => {
         book = await Book.build(req.body);
         res.render('new-book', { book, errors: error.errors, title, author, genre, year})
       } else {
-        throw error;
+        next(err);
       }  
     }
   });
 
 // Render Update Book
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
     let id = req.params.id;
     Book.findByPk(id)
         .then(book => {
-            if (book) {
-                res.render('update-book', {
-                    book
-                });
-            } else {
-                res.render('error');
-            }
+          res.render('update-book', {
+            book
+          });
         })
-        .catch(err => console.log(err))
+        .catch(err => next(err));
 })
 
 // Update Book
-router.post('/:id', async (req, res) => {
+router.post('/:id', async (req, res, next) => {
     let book;
     try {
       book = await Book.findByPk(req.params.id);
-      if(book) {
-        await book.update(req.body);
-        res.redirect('/books'); 
-      } else {
-        res.render('error');
-      }
-    } catch (error) {
+      await book.update(req.body);
+      res.redirect('/books'); 
+    }catch (error) {
       if(error.name === "SequelizeValidationError") {
         book = await Book.build(req.body);
         book.id = req.params.id;
         res.render('update-book', { book, errors: error.errors})
       } else {
-        throw error;
+        next(err);
       }
     }
-  });
+});
 
 // Delete Book
-router.post('/:id/delete', (req, res) => {
+router.post('/:id/delete', (req, res, next) => {
     let id = req.params.id;
     Book.findByPk(id)
         .then(book => {
@@ -89,11 +79,7 @@ router.post('/:id/delete', (req, res) => {
                res.render('error');
            }
         })
-        .catch(err => {
-            if (err) {
-                res.render('error')
-            }
-        })
+        .catch(err => next(err));
 })
 
 module.exports = router;

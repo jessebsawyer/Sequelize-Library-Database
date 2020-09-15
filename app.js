@@ -36,11 +36,17 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
+    err.status = err.status || 500;
+    err.message = err.message || "There's been an error on the server"
     res.locals.error = err;
     res.status(err.status);
-    console.log(`This page does not exist: ${err.status} ${err.message}`);
-    res.render('page-not-found');
-})
+    if (err.status === 404) {
+        console.log(`This page does not exist: ${err.status} ${err.message}`);
+        res.render('page-not-found', {err});
+    } else {
+        res.render('error', {err});
+    }
+});
 
 // Set Port
 const PORT = process.env.PORT || 5000;
