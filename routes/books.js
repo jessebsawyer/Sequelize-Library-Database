@@ -72,12 +72,8 @@ router.post('/:id/delete', (req, res, next) => {
     let id = req.params.id;
     Book.findByPk(id)
         .then(book => {
-           if (book) {
-            book.destroy(req.body)
+          book.destroy(req.body)
             .then(res.redirect('/books'))
-           } else {
-               res.render('error');
-           }
         })
         .catch(err => next(err));
 })
